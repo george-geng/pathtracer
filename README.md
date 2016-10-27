@@ -1,1 +1,1 @@
-# pathtracer
+# george-geng.github.io/pathtracer
