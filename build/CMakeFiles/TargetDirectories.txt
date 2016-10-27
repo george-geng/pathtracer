@@ -1,0 +1,5 @@
+/Users/George/cs184/asst3_pathtracer/build/src/CMakeFiles/pathtracer.dir
+/Users/George/cs184/asst3_pathtracer/build/CGL/deps/glfw/CMakeFiles/uninstall.dir
+/Users/George/cs184/asst3_pathtracer/build/CGL/src/CMakeFiles/CGL.dir
+/Users/George/cs184/asst3_pathtracer/build/CGL/deps/glew/CMakeFiles/glew.dir
+/Users/George/cs184/asst3_pathtracer/build/CGL/deps/glfw/src/CMakeFiles/glfw.dir
