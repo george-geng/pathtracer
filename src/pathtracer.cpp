@@ -488,8 +488,7 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
 
   Intersection isect;
   Spectrum L_out;
-
-  // You will extend this in part 2. 
+  
   // If no intersection occurs, we simply return black.
   // This changes if you implement hemispherical lighting for extra credit.
   if (!bvh->intersect(r, &isect)) 
@@ -505,7 +504,7 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
   if (includeLe /*&& (r.depth < max_ray_depth)*/)
     L_out += isect.bsdf->get_emission();
 
-  // You will implement this in part 3. 
+  // direct lighting
   // Delta BSDFs have no direct lighting since they are zero with probability 1 --
   // their values get accumulated through indirect lighting, where the BSDF 
   // gets to sample itself.
@@ -514,7 +513,7 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
     L_out += estimate_direct_lighting(r, isect);
   }
 
-  // You will implement this in part 4.
+  // indirect lighting
   // If the ray's depth is zero, then the path must terminate
   // and no further indirect lighting is calculated.
  // printf("r=%zu\n", r.depth);
@@ -529,8 +528,8 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
 
 Spectrum PathTracer::raytrace_pixel(size_t x, size_t y) {
 
-  // Part 1, Task 1:
-  // Make a loop that generates num_samples camera rays and traces them 
+  
+  // loop to generate num_samples camera rays and traces them 
   // through the scene. Return the average Spectrum. 
 
   int num_samples = ns_aa; // total samples to evaluate
