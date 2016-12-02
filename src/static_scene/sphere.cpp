@@ -44,14 +44,10 @@ bool Sphere::intersect(const Ray& r) const {
 }
 
 bool Sphere::intersect(const Ray& r, Intersection *i) const {
-
-  // TODO Part 1m task 4:
-  // Implement ray - sphere intersection.
-  // Note again that you might want to use the the Sphere::test helper here.
-  // When an intersection takes place, the Intersection data should be updated
+  
+  // when an intersection takes place, update the Intersection data 
   // correspondingly.
-//UP UNTIL THIS POINT, ONLY RUN SPHERE_LAMBERTIAN
-//  return false;
+
   double a = dot(r.d, r.d);
   double b = 2*dot((r.o - o), r.d);
   double c = dot((r.o-o),(r.o-o)) - (this->r2);
