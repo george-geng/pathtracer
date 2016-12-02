@@ -9,8 +9,8 @@ namespace CGL { namespace StaticScene {
 
 bool Sphere::test(const Ray& r, double& t1, double& t2) const {
 
-  // TODO Part 1, task 4:
-  // Implement ray - sphere intersection test.
+  
+  // ray - sphere intersection test.
   // Return true if there are intersections and writing the
   // smaller of the two intersection times in t1 and the larger in t2.
 
