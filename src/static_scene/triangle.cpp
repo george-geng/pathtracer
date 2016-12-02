@@ -20,11 +20,10 @@ BBox Triangle::get_bbox() const {
 
 bool Triangle::intersect(const Ray& r) const {
   
-  // TODO Part 1, task 3: implement ray-triangle intersection
   //Vector3D p1(mesh->positions[v1]), p2(mesh->positions[v2]), p3(mesh->positions[v3]);
   //return false;
   Vector3D p0(mesh->positions[v1]), p1(mesh->positions[v2]), p2(mesh->positions[v3]); //3 vectord 3Ds!
-  /*Remember that not every intersection is valid -- the ray has min_t and max_t fields defining the valid range of t values. 
+  //not every intersection is valid -- the ray has min_t and max_t fields defining the valid range of t values. 
   If t lies outside this range, you should return false. Else, update max_t to be equal to t so that future intersections with 
   farther away primitives will be discarded.*/
   Vector3D e1 = p1-p0;
@@ -54,10 +53,9 @@ bool Triangle::intersect(const Ray& r) const {
 }
 
 bool Triangle::intersect(const Ray& r, Intersection *isect) const {
-  
-  // TODO Part 1, task 3:   
-  // implement ray-triangle intersection. When an intersection takes
-  // place, the Intersection data should be updated accordingly
+    
+  // ray-triangle intersection. 
+  // intersection data should be updated accordingly
   //Vector3D p1(mesh->positions[v1]), p2(mesh->positions[v2]), p3(mesh->positions[v3]);
   //Vector3D n1(mesh->normals[v1]), n2(mesh->normals[v2]), n3(mesh->normals[v3]);
   Vector3D p0(mesh->positions[v1]), p1(mesh->positions[v2]), p2(mesh->positions[v3]);
