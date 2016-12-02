@@ -49,8 +49,7 @@ Spectrum MirrorBSDF::f(const Vector3D& wo, const Vector3D& wi) {
 }
 
 Spectrum MirrorBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
-  // TODO Part 5:
-  // Implement MirrorBSDF
+  // mirrorBSDF
   *pdf = 1.0f;
   Spectrum mirrorReflectance = reflectance;
   reflect(wo, wi); //this should give the correct value for wi
@@ -73,7 +72,7 @@ Spectrum GlossyBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
 }
 */
 
-// Refraction BSDF //
+// refraction BSDF //
 
 Spectrum RefractionBSDF::f(const Vector3D& wo, const Vector3D& wi) {
   return Spectrum();
@@ -81,8 +80,7 @@ Spectrum RefractionBSDF::f(const Vector3D& wo, const Vector3D& wi) {
 
 Spectrum RefractionBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
 //no need to implement this one
-  // TODO Part 5:
-  // Implement RefractionBSDF
+  // implement RefractionBSDF
   return Spectrum();
 }
 
@@ -93,8 +91,7 @@ Spectrum GlassBSDF::f(const Vector3D& wo, const Vector3D& wi) {
 }
 
 Spectrum GlassBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
-  // TODO Part 5:
-  // Compute Fresnel coefficient and either reflect or refract based on it. 
+  // compute Fresnel coefficient and either reflect or refract based on it. 
   //first, test for total refraction
   //inputs 
   Vector3D dIn = wo;
@@ -113,7 +110,7 @@ Spectrum GlassBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
   }
   // //outputs
   // Vector3D dOut;
-//  double costheta = max(dot(normal, dIn), -dot(normal, dIn));
+ //  double costheta = max(dot(normal, dIn), -dot(normal, dIn));
  // double costheta = abs_cos_theta(*wi);
   if (tir) {
     *pdf = 1.0;
@@ -124,15 +121,6 @@ Spectrum GlassBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
     double r0 = pow((ni-no)/(ni+no), 2);
     //dIn.normalize();
     double costheta = abs_cos_theta(wo); //here, wo or i?
-  //  double costheta_i = cos_theta(wo); 
-   // double costheta_t = sqrt(1.0-(ni/no)*(ni/no)*(1-costheta_i*costheta_i));
-    //double r;
-    //if (ni>no) //going from glass to air
-    //{
-    //  r = r0 + (1.0-r0)*pow(1-costheta_i, 5);  
-    //} else {
-    //  r = r0 + (1.0-r0)*pow(1-costheta_t, 5);
-   // }
     double r = r0 + (1.0-r0)*pow(1-costheta, 5); 
     bool doReflect = coin_flip(r);
     if (doReflect) {
@@ -149,38 +137,9 @@ Spectrum GlassBSDF::sample_f(const Vector3D& wo, Vector3D* wi, float* pdf) {
   }
 }
 
-  // Vector3D normal = Vector3D(0.0f, 0.0f, 1.0f);
-  // double ni;
-  // double nt;
-  // bool entering = (dot(wo, normal) > 0);
-  // if (entering) {
-  //   ni = 1.0;
-  //   nt = ior; //glass's ior, = 1.5
-  //   double cosIn = dot(input, normal);
-  //   double sin_out_squared = ((nt*nt)/(ni*ni)) * (1-cosIn*cosIn);
-  //   if (sin_out_squared > 1.0) {
-  //     reflect(wo, wi); //now we set wi
-  //   //then do total internal reflection
-  //   } //no total internal reflection 
-  //   else { //do refraction
-  //     double r0 = pow((ni -nt)/(ni + nt), 2);
-  //     double costheta = dot(normal, input);
-  //     double r = r0 + (1.0-r0)*pow(1-costheta, 5); 
-  //     bool doReflect = coin_flip(r);
-  //     if (doReflect) {
-  //       //return MirrorBSDF::sample_f(wo, wi, pdf);
-  //     } else {
-  //       //return a refraction spectrum
-  //     }
-  //   }
-  // }
-  
-  //return Spectrum();
-//}
 
 void BSDF::reflect(const Vector3D& wo, Vector3D* wi) {
-  // TODO Part 5:
-  // Implement reflection of wo about normal (0,0,1) and store result in wi.
+  // implement reflection of wo about normal (0,0,1) and store result in wi.
   Vector3D input = wo;
   input.normalize();
   Vector3D normal = Vector3D(0.0,0.0,1.0);
@@ -232,11 +191,6 @@ bool BSDF::refract(const Vector3D& wo, Vector3D* wi, float ior) {
     //Vector3D glassToAir = n*(-wo) + (n*c-sqrt(1-n*n*(1-c*c)))*normal;
     Vector3D glassToAir = n*(-1.0*wo) + (n*cos_in-cos_out) * normal;
     glassToAir = Vector3D(-n*wo.x, -n*wo.y, cos_out);
-    //*wi = glassToAir;
-    //Vector3D down = wo-dot((dot(normal, wo)), normal)*(no/ni);
-    // Vector3D up = cos_in*normal;
-    // Vector3D airToGlass = (down + up);
-    // airToGlass.normalize();
     *wi = glassToAir;
     return true;
   }   
