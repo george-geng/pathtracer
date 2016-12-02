@@ -46,13 +46,11 @@ void BVHAccel::drawOutline(BVHNode *node, const Color& c) const {
 }
 
 BVHNode *BVHAccel::construct_bvh(const std::vector<Primitive*>& prims, size_t max_leaf_size) {
-  
-  // TODO Part 2, task 1:
-  // Construct a BVH from the given vector of primitives and maximum leaf
-  // size configuration. The starter code build a BVH aggregate with a
+ 
+  // constructs a BVH from the given vector of primitives and maximum leaf
+  // size configuration. first, build a BVH aggregate with a
   // single leaf node (which is also the root) that encloses all the
   // primitives.
-  //the loop in step 1
   BBox centroid_box, bbox;
   for (Primitive *p : prims) {
     BBox bb = p->get_bbox();
@@ -60,8 +58,7 @@ BVHNode *BVHAccel::construct_bvh(const std::vector<Primitive*>& prims, size_t ma
     Vector3D c = bb.centroid();
     centroid_box.expand(c);
   }
-  // You'll want to adjust this code.
-  // Right now we just return a single node containing all primitives.
+ 
   BVHNode *node = new BVHNode(bbox);
   if (prims.size() <=  max_leaf_size) { //leaf node
     node->prims = new vector<Primitive *>(prims);
@@ -101,33 +98,6 @@ BVHNode *BVHAccel::construct_bvh(const std::vector<Primitive*>& prims, size_t ma
     }
   }
 
-  //right becomes a leaf
-    //node->prims = &right;
-    //return node; 
-  // if (left.size() == 0 && right.size() > 0) {
-  //    BBox right_centroid_box, right_bbox;
-  //    for (Primitive *p : prims) {
-  //     BBox bb = p->get_bbox();
-  //     right_bbox.expand(bb);
-  //     Vector3D c = bb.centroid();
-  //     right_centroid_box.expand(c);
-  //   }
-  //   BVHNode *right_node = new BVHNode(right_bbox);
-  //   right_node->prims = right;
-  //   return node; 
-  // } 
-  // if (right.size() == 0 && left.size() > 0) {
-  //    BBox left_centroid_box, left_bbox;
-  //    for (Primitive *p : prims) {
-  //     BBox bb = p->get_bbox();
-  //     left_bbox.expand(bb);
-  //     Vector3D c = bb.centroid();
-  //     left_centroid_box.expand(c);
-  //   }
-  //   BVHNode *left_node = new BVHNode(left_bbox);
-  //   left_node->prims = left;
-  //   return node; 
-  // } 
   if (left.size() == 0 || right.size() ==0) {
     vector<Primitive *> leftNew;
     vector<Primitive *> rightNew;
@@ -153,15 +123,7 @@ BVHNode *BVHAccel::construct_bvh(const std::vector<Primitive*>& prims, size_t ma
     node->r = construct_bvh(rightNew, max_leaf_size);
     // BVHNode *leftChild = new BVHNode(bbox);
   }
-    
-    // BVHNode *rightChild = new BVHNode(bbox);
-    // leftChild->prims = &leftNew;
-    // rightChild->prims = &rightNew;
-    // node->l = leftChild;
-    // node->r = rightChild;
-  //  node->l = construct_bvh(leftNew, max_leaf_size);
-   // node->r = construct_bvh(rightNew, max_leaf_size);
- // }
+   
   else {//neither vector is empty
     node->l = construct_bvh(left, max_leaf_size);
     node->r = construct_bvh(right, max_leaf_size); 
@@ -173,24 +135,12 @@ BVHNode *BVHAccel::construct_bvh(const std::vector<Primitive*>& prims, size_t ma
 
 
 bool BVHAccel::intersect(const Ray& ray, BVHNode *node) const {
-
-  // TODO Part 2, task 3:
-  // Implement BVH intersection.
-  // Currently, we just naively loop over every primitive.
-  // for (Primitive *p : *(root->prims)) {
-  //   total_isects++;
-  //   if (p->intersect(ray)) 
-  //     return true;
-  // }
   return false;
 
 }
 
 bool BVHAccel::intersect(const Ray& ray, Intersection* i, BVHNode *node) const {
-
-  // TODO Part 2, task 3:
-  // Implement BVH intersection.
-  // Currently, we just naively loop over every primitive.
+  // BVH intersection.
   double tmin;
   double tmax;
   bool hit = false;
@@ -212,19 +162,7 @@ bool BVHAccel::intersect(const Ray& ray, Intersection* i, BVHNode *node) const {
     //Intersection iR = *i;
     bool hitL = intersect(ray, &iL, node->l);
     bool hitR = intersect(ray, &iR, node->r);
-    //  if (hitL) {
-    //    if (iL.t < iR.t) {
-    // //     iR = iL;
-    //      *i = iR;
-    //    }
-    //  }
   
-  //  if (hitR) {
-    //  if(iR.t < i->t){
-   //     *i = iR;
-    //  }
-  //  }
- //   return (hitL || hitR);
     if (hitL && hitR) {
       if (iL.t < iR.t) {
         *i = iL;
@@ -242,7 +180,6 @@ bool BVHAccel::intersect(const Ray& ray, Intersection* i, BVHNode *node) const {
       return true;
     } 
    return false;
-//   return (hitL || hitR); 
   }
 }
 
